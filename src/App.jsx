@@ -1,9 +1,9 @@
-import ThemeSwitcher from "./components/Task/Task";
+import CustomInput from "./components/Task/Task"
 
 function App() {
   return (
     <div>
-      <ThemeSwitcher/>
+      <CustomInput/>
     </div>
   );
 }

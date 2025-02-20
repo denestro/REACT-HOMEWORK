@@ -1,36 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import "./Task.module.scss";
 
-const titles = ["Привет, мир!", "React — крутой!", "Учусь хукам", "Измени заголовок!"];
-
-function TitleChanger({ theme }) {
-  useEffect(() => {
-    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-    document.title = randomTitle;
-  }, [theme]);
-
-  return null;
+function Text({ value }) {
+  return <p className="output-text">{value}</p>;
 }
 
-function ThemeSwitcher() {
-  const [theme, setTheme] = useState("light");
+function CustomInput() {
+  const inputRef = useRef(null);
+  const [text, setText] = useState("");
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  const handleButtonClick = () => {
+    inputRef.current.focus();
   };
 
-  useEffect(() => {
-    console.log("Текущая тема:", theme); 
-    document.documentElement.setAttribute("data-theme", theme); 
-  }, [theme]);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setText(inputRef.current.value);
+      inputRef.current.value = "";
+    }
+  };
 
   return (
-    <div className="container">
-      <TitleChanger theme={theme} />
-      <h1>Текущая тема: {theme === "light" ? "Светлая" : "Тёмная"}</h1>
-      <button onClick={toggleTheme}>Переключить тему</button>
+    <div className="input-container">
+      <input ref={inputRef} type="text" onKeyPress={handleKeyPress} placeholder="Введите текст..." />
+      <button onClick={handleButtonClick}>Фокус</button>
+      <Text value={text} />
     </div>
   );
 }
 
-export default ThemeSwitcher;
+export default CustomInput;
